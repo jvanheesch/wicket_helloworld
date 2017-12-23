@@ -11,6 +11,7 @@
     <properties>
         <wicket.version>7.9.0</wicket.version>
         <jetty.version>9.2.19.v20160908</jetty.version>
+        <log4j.version>2.10.0</log4j.version>
     </properties>
 
     <dependencies>
@@ -23,6 +24,23 @@
             <groupId>org.eclipse.jetty.aggregate</groupId>
             <artifactId>jetty-all</artifactId>
             <version>${jetty.version}</version>
+        </dependency>
+
+        <!-- https://stackoverflow.com/a/41500347/1939921 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 
