@@ -2,6 +2,8 @@ package com.github.jvanheesch;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.eclipse.jetty.annotations.AnnotationConfiguration;
+import org.eclipse.jetty.annotations.AnnotationConfiguration.ClassInheritanceMap;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
@@ -9,9 +11,12 @@ import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
+import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.springframework.web.WebApplicationInitializer;
 
 import javax.management.MBeanServer;
 import java.lang.management.ManagementFactory;
@@ -75,6 +80,8 @@ public class WicketApplication extends WebApplication {
         bb.setContextPath("/");
         bb.setWar("src/main/webapp");
 
+        bb.setConfigurations(new Configuration[]{new AnnotationConfiguration()});
+        bb.setAttribute(AnnotationConfiguration.CLASS_INHERITANCE_MAP, createClassMap());
         // uncomment the next two lines if you want to start Jetty with WebSocket (JSR-356) support
         // you need org.apache.wicket:wicket-native-websocket-javax in the classpath!
         // ServerContainer serverContainer = WebSocketServerContainerInitializer.configureContext(bb);
@@ -98,5 +105,16 @@ public class WicketApplication extends WebApplication {
             e.printStackTrace();
             System.exit(100);
         }
+    }
+
+    /**
+     * https://stackoverflow.com/a/38919410/1939921
+     */
+    private static ClassInheritanceMap createClassMap() {
+        ClassInheritanceMap classMap = new ClassInheritanceMap();
+        ConcurrentHashSet<String> impl = new ConcurrentHashSet<>();
+        impl.add(SpringWebApplicationInitializer.class.getName());
+        classMap.put(WebApplicationInitializer.class.getName(), impl);
+        return classMap;
     }
 }
