@@ -8,6 +8,8 @@
     <artifactId>wicket_helloworld</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <packaging>war</packaging>
+
     <properties>
         <wicket.version>7.9.0</wicket.version>
         <jetty.version>9.4.8.v20171121</jetty.version>
@@ -20,12 +22,6 @@
             <groupId>org.apache.wicket</groupId>
             <artifactId>wicket-core</artifactId>
             <version>${wicket.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.aggregate</groupId>
-            <artifactId>jetty-all</artifactId>
-            <version>${jetty.version}</version>
-            <type>pom</type>
         </dependency>
 
         <!-- https://stackoverflow.com/a/41500347/1939921 -->
@@ -44,7 +40,12 @@
             <artifactId>log4j-api</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
